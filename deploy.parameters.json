@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "location": {
-        "value": "West US"
+        "value": "eastus2"
       },
       "appServicePlanName": {
         "value": "myAppServicePlan"
       },
       "webAppName": {
-        "value": "myMvcApp"
+        "value": "testedward27092024"
       }
     }
   }
