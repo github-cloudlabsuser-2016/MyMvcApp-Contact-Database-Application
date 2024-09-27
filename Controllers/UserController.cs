@@ -2,23 +2,29 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MyMvcApp.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MyMvcApp.Controllers
 {
     public class UserController : Controller
     {
-        public static System.Collections.Generic.List<User> userlist = new System.Collections.Generic.List<User>();
+        private readonly List<User> _userlist;
+
+        public UserController(List<User> userlist)
+        {
+            _userlist = userlist;
+        }
 
         // GET: User
         public ActionResult Index()
         {
-            return View(userlist);
+            return View(_userlist);
         }
 
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            var user = userlist.FirstOrDefault(u => u.Id == id);
+            var user = _userlist.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -38,7 +44,7 @@ namespace MyMvcApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                userlist.Add(user);
+                _userlist.Add(user);
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -47,7 +53,7 @@ namespace MyMvcApp.Controllers
         // GET: User/Edit/5
         public ActionResult Edit(int id)
         {
-            var user = userlist.FirstOrDefault(u => u.Id == id);
+            var user = _userlist.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -59,7 +65,7 @@ namespace MyMvcApp.Controllers
         [HttpPost]
         public ActionResult Edit(int id, User user)
         {
-            var existingUser = userlist.FirstOrDefault(u => u.Id == id);
+            var existingUser = _userlist.FirstOrDefault(u => u.Id == id);
             if (existingUser == null)
             {
                 return NotFound();
@@ -79,7 +85,7 @@ namespace MyMvcApp.Controllers
         // GET: User/Delete/5
         public ActionResult Delete(int id)
         {
-            var user = userlist.FirstOrDefault(u => u.Id == id);
+            var user = _userlist.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -91,13 +97,13 @@ namespace MyMvcApp.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            var user = userlist.FirstOrDefault(u => u.Id == id);
+            var user = _userlist.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            userlist.Remove(user);
+            _userlist.Remove(user);
             return RedirectToAction(nameof(Index));
         }
     }
